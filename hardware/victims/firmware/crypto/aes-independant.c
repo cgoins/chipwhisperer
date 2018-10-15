@@ -210,6 +210,50 @@ void aes_indep_mask(uint8_t * m)
     mask[i] = m[i];
 }
 
+#elif defined(GALOISAES128)
+
+#include "aes.h"
+
+uint8_t enckey[16];
+uint32_t *g_key;
+uint32_t *g_pt;
+uint32_t *g_ct;
+
+void aes_indep_init(void)
+{
+	;
+}
+/*
+void aes_indep_key(uint8_t * key)
+{
+	g_key = (uint32_t*)key;
+	GALOIS_AES128_setkey(g_key);
+}
+
+void aes_indep_enc(uint8_t * pt, uint8_t * key, uint8_t * ct)
+{
+	g_pt = (uint32_t*)pt;	
+	g_key = (uint32_t*)key;
+	g_ct = (uint32_t*)ct;
+	GALOIS_AES128_blockencrypt(g_pt, g_key, g_ct);
+}
+*/
+
+void aes_indep_key(uint8_t * key)
+{
+	g_key = (uint32_t*)key;
+	GALOIS_AES128_setkey(g_key);
+}
+
+void aes_indep_enc(uint8_t * pt)
+{
+	g_pt = (uint32_t*)pt;	
+	GALOIS_AES128_blockencrypt(g_pt);
+}
+
+void aes_indep_mask(uint8_t * m)
+{
+}
 
 
 #else

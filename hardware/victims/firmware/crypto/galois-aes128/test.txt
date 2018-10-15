@@ -1,0 +1,20 @@
+Key:                         2b7e1516UL
+Key:                         28aed2a6UL
+Key:                         abf71588UL
+Key:                          9cf4f3cUL
+Plaintext:                         a66530f9
+Plaintext:                         c310ee11
+Plaintext:                         d0eb3c0a
+Plaintext:                         ef7280f3
+Expected ciphertext:                          11812a9
+Expected ciphertext:                         d99f06d1
+Expected ciphertext:                         c58640f3
+Expected ciphertext:                         26b54ef1
+Ciphertext from original:                          11812a9
+Ciphertext from original:                         d99f06d1
+Ciphertext from original:                         c58640f3
+Ciphertext from original:                         26b54ef1
+Ciphertext from modified:                          11812a9
+Ciphertext from modified:                         d99f06d1
+Ciphertext from modified:                         c58640f3
+Ciphertext from modified:                         26b54ef1

@@ -1,0 +1,6 @@
+########
+CRYPTO_LIB = galois-aes128 
+SRC += aes.c aes-independant.c
+CDEFS += -DGALOISAES128
+VPATH += :$(FIRMWAREPATH)/crypto/$(CRYPTO_LIB)
+EXTRAINCDIRS += $(FIRMWAREPATH)/crypto/$(CRYPTO_LIB)

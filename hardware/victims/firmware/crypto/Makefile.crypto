@@ -59,6 +59,15 @@ else ifeq ($(CRYPTO_TARGET),HWAES)
   CPPFLAGS += -DHWCRYPTO=1
   SRC += aes-independant.c
 
+else ifeq ($(CRYPTO_TARGET),GALOISAES128)
+#
+# Crypto Target: GALOISAES128
+# Crypto Options:
+#   None
+# Notes:
+  include $(FIRMWAREPATH)/crypto/Makefile.galoisaes128
+
+
 else ifeq ($(CRYPTO_TARGET),NONE)
   #Nothing to do :)
 

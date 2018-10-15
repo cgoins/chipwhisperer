@@ -39,4 +39,7 @@ void simpleserial_get(void);
 // Example: simpleserial_put('r', 16, ciphertext)
 void simpleserial_put(char c, int size, uint8_t* output);
 
+// same as simpleserial_put but for unint32_t*
+void simpleserial_put_long(char c, int size, uint32_t* output);
+
 #endif // SIMPLESERIAL_H
