@@ -31,44 +31,51 @@ typedef int16_t SInt16;
 typedef int32_t SInt32;
 typedef int64_t SInt64;
 
-// used to set key address w/o having key as input to encryption fcn
-SWord32 *g_key;
 
 void GALOIS_AES128_setkey(SWord32 *key)
 {
-	g_key = key;	
-	simpleserial_put_long('d', 4, key);
-	simpleserial_put_long('e', 4, g_key);
+	//g_key = key;	
+	//simpleserial_put_long('d', 4, key);
+	//simpleserial_put_long('e', 4, g_key);
 }
 
-//void aes128BlockEncryptSWord32(const SWord32 *pt, const SWord32 *key,
-//                        SWord32*ct)
-void GALOIS_AES128_blockencrypt(SWord32 *pt)
+void GALOIS_AES128_blockencrypt(uint8_t *pt)
 {
-  SWord32 s0 = pt[0];
-  SWord32 s1 = pt[1];
-  SWord32 s2 = pt[2];
-  SWord32 s3 = pt[3];
+  const SWord32 g_key[4] = {
+	0x2b7e1516UL, 0x28aed2a6UL, 0xabf71588UL, 0x09cf4f3cUL
+  };  
 
-  /* 
-	// for making sure key is in there
-	int i;
-	for (i = 0; i <4; i++) {
-		printf("g_key in aes.c: %32" PRIx32 "\n", g_key[i]); 
-	}
-  */
-
-  //uint32_t* f;
-
-  simpleserial_put_long('a', 4, pt);
-  simpleserial_put_long('b', 4, g_key);
-
+  const SWord32 s0 = pt[3] | (pt[2]<<8) | (pt[1]<<16) | (pt[0]<<24);
+  const SWord32 s1 = pt[7] | (pt[6]<<8) | (pt[5]<<16) | (pt[4]<<24);
+  const SWord32 s2 = pt[11] | (pt[10]<<8) | (pt[9]<<16) | (pt[8]<<24);  
+  const SWord32 s3 = pt[15] | (pt[14]<<8) | (pt[13]<<16) | (pt[12]<<24);
+ 
   const SWord32 s4 = g_key[0];
-  //f = &s4;
-  //simpleserial_put_long('f', 1, f);
   const SWord32 s5 = g_key[1];
   const SWord32 s6 = g_key[2];
   const SWord32 s7 = g_key[3];
+
+  /* 
+  // for debugging correct order of bytes
+  uint32_t *a,*b,*c,*d,*e,*f,*g,*h;
+  a = &s0;
+  b = &s1;
+  c = &s2;
+  d = &s3;
+  e = &s4;
+  f = &s5;
+  g = &s6;
+  h = &s7;
+  simpleserial_put_long('a', 1, a);
+  simpleserial_put_long('b', 1, b);
+  simpleserial_put_long('c', 1, c);
+  simpleserial_put_long('d', 1, d);
+  simpleserial_put_long('e', 1, e);
+  simpleserial_put_long('f', 1, f);
+  simpleserial_put_long('g', 1, g);
+  simpleserial_put_long('h', 1, h);
+  */ 
+
   static const SWord8 table0[] = {
        99, 124, 119, 123, 242, 107, 111, 197,  48,   1, 103,  43, 254,
       215, 171, 118, 202, 130, 201, 125, 250,  89,  71, 240, 173, 212,
@@ -1109,17 +1116,21 @@ void GALOIS_AES128_blockencrypt(SWord32 *pt)
   const SWord32 s2036 = (((SWord32) s2030) << 16) | ((SWord32) s2035);
   const SWord32 s2037 = s1972 ^ s2024;
   const SWord32 s2038 = s2036 ^ s2037;
-  pt[0] = s1995;
-  pt[1] = s2010;
-  pt[2] = s2025;
-  pt[3] = s2038;
-
-	/*
-	int i;
-	for (i = 0; i <4; i++) {
-		printf("pt in aes.c: %32" PRIx32 "\n", pt[i]); 
-	}
-	*/
-
-  simpleserial_put_long('c', 4, pt);
-}
+  
+  pt[0] = (uint8_t) (s1995 >> 24);
+  pt[1] = (uint8_t) ((s1995 & 0xFF0000) >> 16);
+  pt[2] = (uint8_t) ((s1995 & 0xFF00) >> 8);
+  pt[3] = (uint8_t) (s1995 & 0xFF);
+  pt[4] = (uint8_t) (s2010 >> 24);
+  pt[5] = (uint8_t) ((s2010 & 0xFF0000) >> 16);
+  pt[6] = (uint8_t) ((s2010 & 0xFF00) >> 8);
+  pt[7] = (uint8_t) (s2010 & 0xFF);
+  pt[8] = (uint8_t) (s2025 >> 24);
+  pt[9] = (uint8_t) ((s2025 & 0xFF0000) >> 16);
+  pt[10] = (uint8_t) ((s2025 & 0xFF00) >> 8);
+  pt[11] = (uint8_t) (s2025 & 0xFF);
+  pt[12] = (uint8_t) (s2038 >> 24);
+  pt[13] = (uint8_t) ((s2038 & 0xFF0000) >> 16);
+  pt[14] = (uint8_t) ((s2038 & 0xFF00) >> 8);
+  pt[15] = (uint8_t) (s2038 & 0xFF);
+ }

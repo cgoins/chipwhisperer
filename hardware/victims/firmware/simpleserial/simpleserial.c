@@ -161,14 +161,14 @@ void simpleserial_put_long(char c, int size, uint32_t* output)
 	// Write each long as eight nibbles
 	for(int i = 0; i < size; i++)
 	{
-		putch(hex_lookup[(output[i] & 0xF0) >> 4]);
-		putch(hex_lookup[output[i] & 0xF]);
-		putch(hex_lookup[(output[i] & 0xF000) >> 12]);
-		putch(hex_lookup[(output[i] & 0xF00) >> 8]);
-		putch(hex_lookup[(output[i] & 0xF00000) >> 20]);
-		putch(hex_lookup[(output[i] & 0xF0000) >> 16]);
 		putch(hex_lookup[output[i] >> 28]);
 		putch(hex_lookup[(output[i] & 0xF000000) >> 24]);
+		putch(hex_lookup[(output[i] & 0xF00000) >> 20]);
+		putch(hex_lookup[(output[i] & 0xF0000) >> 16]);
+		putch(hex_lookup[(output[i] & 0xF000) >> 12]);
+		putch(hex_lookup[(output[i] & 0xF00) >> 8]);
+		putch(hex_lookup[(output[i] & 0xF0) >> 4]);
+		putch(hex_lookup[output[i] & 0xF]);
 	}
 
 	// Write trailing '\n'
