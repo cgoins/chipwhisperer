@@ -221,9 +221,9 @@ void aes_indep_init(void)
 
 void aes_indep_key(uint8_t * key)
 {
-	uint32_t* g_key;
-	g_key = (uint32_t*)key;
-	GALOIS_AES128_setkey(g_key);
+	//uint32_t* g_key;
+	//g_key = (uint32_t*)key;	
+	GALOIS_AES128_setkey(key);
 }
 
 void aes_indep_enc(uint8_t * pt)

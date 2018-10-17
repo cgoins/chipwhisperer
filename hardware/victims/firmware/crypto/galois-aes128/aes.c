@@ -31,20 +31,18 @@ typedef int16_t SInt16;
 typedef int32_t SInt32;
 typedef int64_t SInt64;
 
+uint32_t g_key[4];
 
-void GALOIS_AES128_setkey(SWord32 *key)
+void GALOIS_AES128_setkey(uint8_t *key)
 {
-	//g_key = key;	
-	//simpleserial_put_long('d', 4, key);
-	//simpleserial_put_long('e', 4, g_key);
+  g_key[0] = key[3] | (key[2]<<8) | (key[1]<<16) | (key[0]<<24);
+  g_key[1] = key[7] | (key[6]<<8) | (key[5]<<16) | (key[4]<<24);
+  g_key[2] = key[11] | (key[10]<<8) | (key[9]<<16) | (key[8]<<24);  
+  g_key[3] = key[15] | (key[14]<<8) | (key[13]<<16) | (key[12]<<24);
 }
 
 void GALOIS_AES128_blockencrypt(uint8_t *pt)
 {
-  const SWord32 g_key[4] = {
-	0x2b7e1516UL, 0x28aed2a6UL, 0xabf71588UL, 0x09cf4f3cUL
-  };  
-
   const SWord32 s0 = pt[3] | (pt[2]<<8) | (pt[1]<<16) | (pt[0]<<24);
   const SWord32 s1 = pt[7] | (pt[6]<<8) | (pt[5]<<16) | (pt[4]<<24);
   const SWord32 s2 = pt[11] | (pt[10]<<8) | (pt[9]<<16) | (pt[8]<<24);  
@@ -55,7 +53,7 @@ void GALOIS_AES128_blockencrypt(uint8_t *pt)
   const SWord32 s6 = g_key[2];
   const SWord32 s7 = g_key[3];
 
-  /* 
+  /*
   // for debugging correct order of bytes
   uint32_t *a,*b,*c,*d,*e,*f,*g,*h;
   a = &s0;
@@ -74,7 +72,7 @@ void GALOIS_AES128_blockencrypt(uint8_t *pt)
   simpleserial_put_long('f', 1, f);
   simpleserial_put_long('g', 1, g);
   simpleserial_put_long('h', 1, h);
-  */ 
+  */
 
   static const SWord8 table0[] = {
        99, 124, 119, 123, 242, 107, 111, 197,  48,   1, 103,  43, 254,
